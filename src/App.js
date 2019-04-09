@@ -1,14 +1,12 @@
 import React from 'react';
 import './App.css';
-import Form from './components/form';
+import TransformNumbers from './components/transform-number'
 
 class App extends React.Component {
   render() {
     return (
       <div className="App">
-        Hello!!!
-
-        <Form />
+        <TransformNumbers />
       </div>
     );
   }

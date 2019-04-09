@@ -1,5 +1,21 @@
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-image: url('./img/app-background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .App {
-  text-align: center;
+  align-items: center;
+  height: 100%;
+  width: 80%;
+  position: relative;
+  margin: auto;
 }
 
 .App-logo {
@@ -30,4 +46,24 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.app-container {
+  height: 80%;
+  width: 80%;
+  align-items: center;
+  background-color: white;
+  color: black;
+  padding: 0.5%;
+  margin: auto;
+  vertical-align: middle;
+}
+
+.form-container {
+  align-items: center;
+  background-color: white;
+  color: black;
+  padding: 0.5%;
+  margin: auto;
+  vertical-align: middle;
 }
