@@ -3,7 +3,7 @@ import Form from './form';
 
 class TransformNumbers extends React.Component {
 
-    renderHeader = () => <h2>Tranform Number to Words</h2>;
+    renderHeader = () => <div className='app-header'><h1>Tranform Number to Words</h1></div>;
 
     renderForm = () => <Form/>;
 
