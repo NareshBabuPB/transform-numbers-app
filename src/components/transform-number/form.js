@@ -1,6 +1,12 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import '../../App.css'
+import { convertNumber } from '../../api';
+import bigInt from 'big-integer';
+import { isOnlyNumeric, isWithinRange } from '../../utils/validations';
+
+const INPUT_MIN = bigInt('-9223372036854775808');
+const INPUT_MAX = bigInt('9223372036854775807');
 
 class Form extends React.Component {
     state = {
@@ -9,27 +15,36 @@ class Form extends React.Component {
         output: '',
     };
 
-    isOnlyNumeric = (value) => {
-        const numRegex = /^[-]?[\d]+$/;
-        return numRegex.test(value);
-    };
-
-    isWithinRange = (value, min, max) => 
-        (value >= min && value < max);
-
     validateInput = (inputValue) => {
         let errorMessage = '';
-        if(!this.isOnlyNumeric(inputValue)){
-            errorMessage = 'Only numeric value is allowed as input.';
-        } else if(!this.isWithinRange(inputValue, -15, 150)){
-            errorMessage = 'Only numbers within this range is accepted as input.';
+        if (!isOnlyNumeric(inputValue)) {
+            errorMessage = 'Input must be numeric.';
+        } else if (!isWithinRange(inputValue, INPUT_MIN, INPUT_MAX)) {
+            errorMessage = `Input must be within the range of ${INPUT_MIN} and ${INPUT_MAX}.`;
         }
 
         this.setState({
+            output: '',
             error: errorMessage,
         });
 
         return !errorMessage;
+    };
+
+    processInput = (inputValue) => {
+        if (this.validateInput(inputValue)) {
+            convertNumber(inputValue)
+                .then(json => {
+                    this.setState({
+                        output: json.numberInWords,
+                    });
+                }).catch(error => {
+                    this.setState({
+                        output: '',
+                        error: 'Something went wrong while processing the input. Try again.',
+                    });
+                });
+        }
     };
 
     handleInputChange = (event) => {
@@ -39,35 +54,34 @@ class Form extends React.Component {
             inputNumber: inputValue,
         });
 
-        if(inputValue && this.validateInput(inputValue)) {
-            fetch("https://j6x960lxyb.execute-api.us-east-2.amazonaws.com/live/convert/number-to-words?inputNumber="+ inputValue)
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    output: json.numberInWords,
-                });
-            }).catch(error => console.log(error)); // TODO display gracefull error message in UI
+        if (!inputValue) {
+            this.setState({
+                output: '',
+                error: '',
+            });
+        } else {
+            this.processInput(inputValue);
         }
     };
 
     renderInputField = () => (
         <div>
-            <TextField 
-            id="input-number" 
-            placeholder="Enter a number to transform..." 
-            autoFocus 
-            fullWidth 
-            margin="normal" 
-            value={this.state.inputNumber} 
-            error={!!this.state.error}
-            helperText={this.state.error}
-            onChange={this.handleInputChange} />
+            <TextField
+                id="input-number"
+                placeholder="Enter a number to transform..."
+                autoFocus
+                fullWidth
+                margin="normal"
+                value={this.state.inputNumber}
+                error={!!this.state.error}
+                helperText={this.state.error}
+                onChange={this.handleInputChange} />
         </div>
     );
 
     renderOutputField = () => (
-        <div>
-            <TextField id="output-field" multiline fullWidth margin="normal" value={this.state.output} rows={5} />
+        <div className='output-container'>
+            {this.state.output}
         </div>
     );
 
@@ -79,7 +93,7 @@ class Form extends React.Component {
             </div>
         );
     }
-    
+
 }
 
 export default Form;

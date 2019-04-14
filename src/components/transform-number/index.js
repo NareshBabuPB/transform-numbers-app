@@ -10,7 +10,6 @@ class TransformNumbers extends React.Component {
     render() {
         return (
             <div className='app-container'>
-                {this.renderHeader()}
                 {this.renderForm()}
             </div>
         );

@@ -1,41 +1,54 @@
-html {
+body, html {
   min-height: 100%;
+  min-width: 100%;
+  background-color: rgb(182, 204, 224);
 }
 
-body {
-  min-height: 100%;
-  background-image: url('./img/app-background.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.App {
-  height: 60%;
+.app {
+  height: 80%;
   width: 100%;
   position: absolute;
   display: table;
 }
 
-.app-container {
-  color: black;
+.app-wrapper {
   display: table-cell;
   vertical-align: middle;
+  padding: 0;
+}
+
+.app-container {
+  color: black;
+  margin: 0 auto;
+  width: 50%;
+  min-height: 65%;
+  background-color: rgb(202, 243, 243);
+  box-shadow: 10px 10px rgb(145, 172, 172);
+  border-radius: 0.5in;
 }
 
 .app-header {
   height: 20%;
-  width: 50%;
+  display: table-row;
   text-align: center;
   margin: auto;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+
+.app-header h1 {
+  padding-top: 30px;
+  font-size: 3em;
 }
 
 .form-container {
-  width: 50%;
-  background-color: white;
+  padding: 10px;
   margin: 0 auto;
 }
 
-.app-output {
-  height: 10%;
+.output-container {
+  margin: 40px 0 20px 0;
+  min-height: 250px;
+  border: dotted 0.5px;
+  border-radius: 0.1in;
+  padding: 10px;
 }
